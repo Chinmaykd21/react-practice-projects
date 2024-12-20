@@ -1,0 +1,20 @@
+.game-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 0.01fr);
+  grid-template-rows: repeat(3, 0.01fr);
+  gap: 0.01rem;
+}
+
+.cell {
+  width: 3.5rem;
+  height: 3.5rem;
+  border: 0.1rem solid white;
+  line-height: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.reset-game {
+  color: white;
+}
