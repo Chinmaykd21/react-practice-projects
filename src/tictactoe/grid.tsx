@@ -15,6 +15,10 @@ export const Grid: FC<Readonly<GridProps>> = ({ rows, cols }) => {
   const [winner, setWinner] = useState<boolean>(false);
   const [isTie, setIsTie] = useState<boolean>(false);
 
+  const isGameTied = (gameGrid: Array<Array<string | null>>) => {
+    return gameGrid.flat().every((gridCell) => gridCell !== null);
+  };
+
   const gameState = (gameGrid: Array<Array<string | null>>) => {
     const flattenedGameGrid = gameGrid.flat();
 
@@ -39,25 +43,24 @@ export const Grid: FC<Readonly<GridProps>> = ({ rows, cols }) => {
       }
     }
 
-    setIsTie(flattenedGameGrid.every((gridCell) => gridCell !== null));
-
     return null;
   };
 
   const handleButtonClick = (rowIndex: number, colIndex: number) => {
-    setGrid((prevGrid) => {
-      const newGrid = prevGrid.map((newRow) => [...newRow]);
-      if (!newGrid[rowIndex][colIndex]) {
-        newGrid[rowIndex][colIndex] = isPlayer1 ? "X" : "O";
-        const possibleWinner = gameState(newGrid);
-        if (possibleWinner) {
-          setWinner(true);
-        } else {
-          setIsPlayer1(!isPlayer1);
-        }
+    if (!grid[rowIndex][colIndex] && !winner) {
+      const newGrid = [...grid];
+      newGrid[rowIndex] = [...newGrid[rowIndex]];
+      newGrid[rowIndex][colIndex] = isPlayer1 ? "X" : "O";
+      const possibleWinner = gameState(newGrid);
+      setGrid(newGrid);
+      if (possibleWinner) {
+        setWinner(true);
+      } else if (isGameTied(newGrid)) {
+        setIsTie(true);
+      } else {
+        setIsPlayer1(!isPlayer1);
       }
-      return newGrid;
-    });
+    }
   };
 
   const resetGame = () => {
