@@ -1,8 +1,10 @@
-/* .grid-container {
+.grid-container {
   display: flex;
   flex-direction: column;
+  justify-content: center;
+  align-items: center;
   gap: 1.5rem;
-} */
+}
 
 .grid-cell {
   display: flex;
@@ -33,4 +35,5 @@
   grid-template-rows: repeat(3, 0.01fr);
   grid-template-columns: repeat(3, 0.01fr);
   gap: 0.5rem;
+  animation: fadeIn 0.9s ease-in-out;
 }
