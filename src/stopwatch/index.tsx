@@ -31,10 +31,10 @@ export const StopWatch = () => {
     const sec = Math.floor((time / 1000) % 60);
     const min = Math.floor(time / 60000);
 
-    return `${String(min).padStart(2, "0")}:${String(sec).padStart(
+    return `${String(min).padStart(2, "0")} m:${String(sec).padStart(
       2,
       "0"
-    )}:${String(ms).padStart(3, "0")}`;
+    )} s:${String(ms).padStart(3, "0")} ms`;
   };
   return (
     <>
