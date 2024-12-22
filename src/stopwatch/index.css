@@ -1,0 +1,15 @@
+.buttons {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.timer-title {
+  font-size: 4.5rem;
+}
+
+.timer-action-button {
+  font-size: 1.5rem;
+  border: 0.1rem solid white;
+  border-radius: 0.5rem;
+  padding: 1rem 1.5rem;
+}

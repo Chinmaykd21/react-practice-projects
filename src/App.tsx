@@ -1,10 +1,12 @@
 import "./App.css";
-import { TicTacToe } from "./tictactoe";
+import { StopWatch } from "./stopwatch";
+// import { TicTacToe } from "./tictactoe";
 
 function App() {
   return (
     <>
-      <TicTacToe />
+      {/* <TicTacToe /> */}
+      <StopWatch />
     </>
   );
 }
