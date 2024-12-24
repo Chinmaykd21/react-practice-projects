@@ -1,5 +1,6 @@
 import "./App.css";
-import { TempConverter } from "./temconverter";
+import { Wordle } from "./wordle";
+// import { TempConverter } from "./temconverter";
 // import { StopWatch } from "./stopwatch";
 // import { TicTacToe } from "./tictactoe";
 
@@ -8,7 +9,8 @@ function App() {
     <>
       {/* <TicTacToe /> */}
       {/* <StopWatch /> */}
-      <TempConverter />
+      {/* <TempConverter /> */}
+      <Wordle />
     </>
   );
 }
