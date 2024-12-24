@@ -1,12 +1,14 @@
 import "./App.css";
-import { StopWatch } from "./stopwatch";
+import { TempConverter } from "./temconverter";
+// import { StopWatch } from "./stopwatch";
 // import { TicTacToe } from "./tictactoe";
 
 function App() {
   return (
     <>
       {/* <TicTacToe /> */}
-      <StopWatch />
+      {/* <StopWatch /> */}
+      <TempConverter />
     </>
   );
 }
