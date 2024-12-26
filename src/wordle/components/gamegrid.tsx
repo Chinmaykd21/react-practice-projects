@@ -1,16 +1,6 @@
 import { FC } from "react";
+import { WordRow } from "..";
 import "./gamegrid.css";
-
-export type LetterState = "present" | "absent" | "correct";
-
-export type Letter = {
-  value: string;
-  state: LetterState;
-};
-
-export type WordRow = {
-  letters: Letter[];
-};
 
 export type GameGridProps = {
   rows: WordRow[];
@@ -24,12 +14,12 @@ export const GameGrid: FC<GameGridProps> = ({
   currentRowIndex,
 }) => {
   return (
-    <div className="game-board">
+    <div className="game-grid">
       {rows.map((row, rowIdx) => (
-        <div className="word-row" key={rowIdx}>
+        <div key={`${row.letters.length}-${rowIdx}`} className="word-row">
           {row.letters.map((letter, idx) => {
             const value =
-              rowIdx === currentRowIndex && idx < currentGuess.length
+              currentRowIndex === rowIdx && rowIdx < currentGuess.length
                 ? currentGuess[idx]
                 : letter.value;
             return (

@@ -1,25 +1,36 @@
 import { useEffect, useState } from "react";
-import { GameGrid, Letter, WordRow } from "./components/gamegrid";
+import { GameGrid } from "./components/gamegrid";
 import "./index.css";
 
-const initializeGrid = (
+export type LetterState = "absent" | "present" | "correct";
+
+export type Letter = {
+  value: string;
+  state: LetterState;
+};
+
+export type WordRow = {
+  letters: Letter[];
+};
+
+const MAX_ATTEMPTS = 6;
+const TARGET = "world";
+
+const initializeRows = (
   maxAttempts: number,
-  targetWordLength: number
+  targetLength: number
 ): WordRow[] => {
   return Array.from({ length: maxAttempts }, () => ({
-    letters: Array.from({ length: targetWordLength }, () => ({
+    letters: Array.from({ length: targetLength }, () => ({
       value: "",
       state: "absent",
     })),
   }));
 };
 
-const TARGET = "world";
-const MAX_ATTEMPTS = 6;
-
-const validateGuess = (currentGuess: string, target: string): WordRow => {
+const validateGuess = (currentGuesss: string, target: string): WordRow => {
   const targetLetters = target.split("");
-  const feedback: Letter[] = currentGuess.split("").map((letter, idx) => {
+  const feedback: Letter[] = currentGuesss.split("").map((letter, idx) => {
     if (letter === targetLetters[idx]) {
       return { value: letter, state: "correct" };
     } else if (targetLetters.includes(letter)) {
@@ -28,21 +39,22 @@ const validateGuess = (currentGuess: string, target: string): WordRow => {
       return { value: letter, state: "absent" };
     }
   });
+
   return { letters: feedback };
 };
 
 export const Wordle = () => {
   const [rows, setRows] = useState<WordRow[]>(
-    initializeGrid(MAX_ATTEMPTS, TARGET.length)
+    initializeRows(MAX_ATTEMPTS, TARGET.length)
   );
   const [currentGuess, setCurrentGuess] = useState<string>("");
-  const [isGameOver, setIsGameOver] = useState<boolean>(false);
   const [currentRowIndex, setCurrentRowIndex] = useState<number>(0);
+  const [isGameOver, setIsGameOver] = useState<boolean>(false);
 
   const handleKeyPress = (key: string) => {
     if (isGameOver) return;
+
     if (key === "Enter" && currentGuess.length === TARGET.length) {
-      console.log("Validating Keyword", currentGuess);
       const newRow = validateGuess(currentGuess, TARGET);
       const updatedRows = [...rows];
       updatedRows[currentRowIndex] = newRow;
@@ -57,22 +69,22 @@ export const Wordle = () => {
         setCurrentGuess("");
       }
     } else if (key === "Backspace") {
-      setCurrentGuess(currentGuess.slice(0, -1));
+      setCurrentGuess((prev) => prev.slice(0, -1));
     } else if (/^[a-z]$/i.test(key) && currentGuess.length < TARGET.length) {
-      setCurrentGuess(currentGuess + key);
+      setCurrentGuess((prev) => prev + key);
     }
   };
 
   useEffect(() => {
-    const handleKeyDown = (event: KeyboardEvent) => handleKeyPress(event.key);
+    const handleKeyDown = (e: KeyboardEvent) => handleKeyPress(e.key);
     window.addEventListener("keydown", handleKeyDown);
     return () => window.removeEventListener("keydown", handleKeyDown);
-  });
+  }, [currentGuess, isGameOver]);
 
   return (
     <div className="wordle-game">
-      <h1 className="game-title">Wordle Game</h1>
-      <p className="game-over">{isGameOver && "Game Over"}</p>
+      <h1>Wordle</h1>
+      <p className="game-status">{isGameOver && "Game Over"}</p>
       <GameGrid
         rows={rows}
         currentGuess={currentGuess}
