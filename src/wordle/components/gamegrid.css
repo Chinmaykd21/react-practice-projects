@@ -1,0 +1,37 @@
+.game-board {
+  display: grid;
+  grid-template-rows: repeat(6, 2.5fr);
+  gap: 0.5rem;
+}
+
+.word-row {
+  display: grid;
+  grid-template-columns: repeat(5, 2.5fr);
+  gap: 0.5rem;
+}
+
+.letter {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 2.5rem;
+  height: 2.5rem;
+  line-height: 1rem;
+  border: 0.1rem solid white;
+  border-radius: 1rem;
+}
+
+.letter.absent {
+  background-color: gray;
+  color: white;
+}
+
+.letter.present {
+  background-color: yellow;
+  color: black;
+}
+
+.letter.correct {
+  background-color: green;
+  color: white;
+}

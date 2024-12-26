@@ -1,0 +1,23 @@
+.wordle-game {
+  display: flex;
+  flex-direction: column;
+  gap: 0.1rem;
+  justify-content: center;
+  align-items: center;
+}
+
+.game-over {
+  font-size: large;
+  font-style: italic;
+  font-weight: bold;
+  animation: fadeIn 1.5s ease-in-out;
+}
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 100;
+  }
+}
