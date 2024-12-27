@@ -5,8 +5,12 @@ div {
   height: 100dvh;
 }
 
-svg {
+.iconify.iconify--logos {
   animation: spin 3s linear infinite;
+}
+
+.iconify.iconify--logos:hover {
+  animation-play-state: paused;
 }
 
 @keyframes spin {
