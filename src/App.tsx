@@ -1,4 +1,5 @@
-import { LogoSvg } from "./animatelogo/logosvg";
+// import { LogoSvg } from "./animatelogo/logosvg";
+import Accordion from "./Accordian";
 import "./App.css";
 // import { Wordle } from "./wordle";
 // import { TempConverter } from "./temconverter";
@@ -12,7 +13,8 @@ function App() {
       {/* <StopWatch /> */}
       {/* <TempConverter /> */}
       {/* <Wordle /> */}
-      <LogoSvg />
+      {/* <LogoSvg /> */}
+      <Accordion />
     </>
   );
 }
