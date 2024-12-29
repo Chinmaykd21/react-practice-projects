@@ -1,67 +1,90 @@
 import "./index.css";
 import Image1 from "./Fancy_Demon.jpg";
 import Image2 from "./another_one.jpg";
-import Image3 from "./wallhaven-13v2o1.jpg";
-import Image4 from "./wallhaven-4dp86j.jpg";
-import { useEffect, useRef, useState } from "react";
+import Image3 from "./wallhaven-4dp86j.jpg";
+import Image4 from "./wallhaven-9dov8d.jpg";
+import { FC, useEffect, useRef, useState } from "react";
 
-type content = {
-  title: string;
-  source: string;
+type Image = {
+  src: string;
+  alt: string;
 };
 
-const images: content[] = [
-  { title: "Image 1", source: Image1 },
-  { title: "Image 2", source: Image2 },
-  { title: "Image 3", source: Image3 },
-  { title: "Image 4", source: Image4 },
+const images: Image[] = [
+  { src: Image1, alt: "Image 1" },
+  { src: Image2, alt: "Image 2" },
+  { src: Image3, alt: "Image 3" },
+  { src: Image4, alt: "Image 4" },
 ];
 
 type AutoScrollProps = {
   scrollInterval: number;
 };
 
-export const AutoScroll: React.FC<AutoScrollProps> = ({
-  scrollInterval = 3000,
-}) => {
+export const AutoScroll: FC<AutoScrollProps> = ({ scrollInterval }) => {
   const containerRef = useRef<HTMLDivElement>(null);
-  const [isPaused, setIsPaused] = useState<boolean>(false);
+  const [currentIndex, setCurrentIndex] = useState<number>(0);
 
   useEffect(() => {
     const container = containerRef.current;
     if (!container) return;
 
-    let currentIndex = 0;
-
-    const scrollImages = () => {
-      if (!container || isPaused) return;
-
-      currentIndex = (currentIndex + 1) % images.length;
-      container.scrollTo({
-        left: container.clientWidth * currentIndex,
-        behavior: "smooth",
+    const interval = setInterval(() => {
+      setCurrentIndex((prevIndex) => {
+        const nextIndex = (prevIndex + 1) % images.length;
+        console.log("next index", nextIndex);
+        scrollImages(nextIndex);
+        return nextIndex;
       });
-    };
+    }, scrollInterval);
 
-    const intervalId = setInterval(scrollImages, scrollInterval);
+    return () => clearInterval(interval);
+  }, [scrollInterval]);
 
-    return () => clearInterval(intervalId); // Cleanup on unmount
-  }, [scrollInterval, isPaused]);
+  const scrollImages = (index: number) => {
+    const container = containerRef.current;
 
-  const handleOnMouseEnter = () => setIsPaused(true);
-  const handleOnMouseLeave = () => setIsPaused(false);
+    if (!container) return;
+
+    const containerWidth = container.offsetWidth;
+    const scrollPosition = index * containerWidth;
+    requestAnimationFrame(() => {
+      container.scrollTo({
+        behavior: "smooth",
+        left: scrollPosition,
+      });
+    });
+  };
+
+  const handleButtonClick = (index: number) => {
+    const container = containerRef.current;
+    if (!container) return;
+
+    setCurrentIndex(index);
+    container.scrollTo({
+      behavior: "smooth",
+      left: container.offsetWidth * index,
+    });
+  };
 
   return (
-    <div className="image-container" ref={containerRef}>
-      <div className="scroll-content">
+    <div className="autoscroll-container">
+      <div className="scroll-content" ref={containerRef}>
         {images.map((image, index) => (
-          <img
+          <div className="image-wrapper" key={index}>
+            <img className="image" src={image.src} alt={image.alt} />
+          </div>
+        ))}
+      </div>
+      <div className="navigation-buttons">
+        {images.map((_, index) => (
+          <button
             key={index}
-            src={image.source}
-            alt={image.title}
-            onMouseEnter={handleOnMouseEnter}
-            onMouseLeave={handleOnMouseLeave}
-          />
+            onClick={() => handleButtonClick(index)}
+            className={`button ${currentIndex === index ? "active" : ""}`}
+          >
+            {index + 1}
+          </button>
         ))}
       </div>
     </div>
