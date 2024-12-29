@@ -1,10 +1,11 @@
-// import { LogoSvg } from "./animatelogo/logosvg";
-import Accordion from "./Accordian";
+import { AutoScroll } from "./autoscroll";
 import "./App.css";
 // import { Wordle } from "./wordle";
+// import { LogoSvg } from "./animatelogo/logosvg";
 // import { TempConverter } from "./temconverter";
 // import { StopWatch } from "./stopwatch";
 // import { TicTacToe } from "./tictactoe";
+// import Accordion from "./Accordian";
 
 function App() {
   return (
@@ -14,7 +15,8 @@ function App() {
       {/* <TempConverter /> */}
       {/* <Wordle /> */}
       {/* <LogoSvg /> */}
-      <Accordion />
+      {/* <Accordion /> */}
+      <AutoScroll scrollInterval={3000} />
     </>
   );
 }

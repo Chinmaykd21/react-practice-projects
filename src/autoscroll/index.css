@@ -1,0 +1,29 @@
+.image-container {
+  display: flex;
+  overflow-x: hidden;
+  scroll-behavior: smooth;
+  width: 100%;
+  border: 2px solid #ddd;
+  position: relative;
+}
+
+.scroll-content {
+  display: flex;
+  flex-wrap: nowrap;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+.scroll-content img {
+  flex: 0 0 100%;
+  max-width: 100%;
+  object-fit: contain;
+  border-radius: 8px;
+  aspect-ratio: calc(16 / 9);
+  transition: transform 0.3s ease-in-out;
+}
+
+.scroll-content img:hover {
+  transform: scale(1.05);
+  cursor: pointer;
+}
