@@ -65,10 +65,18 @@ export const AutoScroll: FC<AutoScrollProps> = ({ scrollInterval }) => {
           />
         ))}
       </div>
-      <button className="navigation-buttons next" onClick={handleNext}>
+      <button
+        className="navigation-buttons next"
+        onClick={handleNext}
+        aria-label="Next Image"
+      >
         Next
       </button>
-      <button className="navigation-buttons prev" onClick={handlePrev}>
+      <button
+        className="navigation-buttons prev"
+        onClick={handlePrev}
+        aria-label="Prev Image"
+      >
         Prev
       </button>
     </div>
