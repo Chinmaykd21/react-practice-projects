@@ -65,9 +65,14 @@ type ResultsProps = {
 };
 
 const Results: FC<ResultsProps> = ({ fruits }) => {
-  if (!fruits || fruits.length === 0) return;
+  if (!fruits || fruits.length === 0)
+    return (
+      <p className="no-result" role="option">
+        No Fruits Found
+      </p>
+    );
   return (
-    <ul className="fruit-results">
+    <ul>
       {fruits.map((fruit, idx) => (
         <li key={`${fruit}-${idx}`} className="fruit">
           {fruit}
@@ -118,13 +123,7 @@ export const AutoComplete = () => {
           className="searchInput"
         />
       </div>
-      <div className="results">
-        {result.length > 0 ? (
-          <Results fruits={result} />
-        ) : (
-          <p>No Results Found</p>
-        )}
-      </div>
+      <Results fruits={result} />
     </div>
   );
 };

@@ -26,6 +26,13 @@
   font-weight: bold;
 }
 
+.results {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 .fruit {
   list-style: none;
   margin-bottom: 0.5rem;
