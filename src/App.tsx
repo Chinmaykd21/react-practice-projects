@@ -1,5 +1,6 @@
 import "./App.css";
-import { SimpleForm } from "./simpleform";
+import { AutoComplete } from "./autocomplete";
+// import { SimpleForm } from "./simpleform";
 // import { Wordle } from "./wordle";
 // import { LogoSvg } from "./animatelogo/logosvg";
 // import { TempConverter } from "./temconverter";
@@ -18,7 +19,8 @@ function App() {
       {/* <LogoSvg /> */}
       {/* <Accordion /> */}
       {/* <AutoScroll scrollInterval={3000} /> */}
-      <SimpleForm />
+      {/* <SimpleForm /> */}
+      <AutoComplete />
     </>
   );
 }

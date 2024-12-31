@@ -7,6 +7,10 @@ type FormValues = {
   password: string;
 };
 
+const dummy = (wait: number) => {
+  return new Promise((resolve) => setTimeout(resolve, wait));
+};
+
 export const SimpleForm = () => {
   const [formData, setFormData] = useState<FormValues>({
     username: "",
@@ -25,7 +29,7 @@ export const SimpleForm = () => {
   const handleSubmit = async (event: FormEvent) => {
     event.preventDefault();
     setSubmitted(true);
-    await new Promise((resolve) => setTimeout(resolve, 3000));
+    await dummy(8000);
     setSubmitted(false);
   };
 
