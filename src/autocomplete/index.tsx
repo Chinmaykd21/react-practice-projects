@@ -1,7 +1,7 @@
 import { ChangeEvent, FC, useEffect, useState } from "react";
 import "./index.css";
 
-const mockAPI = (query: string): Promise<string[]> => {
+const mockAPI = (query: string, signal: AbortSignal): Promise<string[]> => {
   const fruits = [
     "Apple",
     "Banana",
@@ -49,13 +49,19 @@ const mockAPI = (query: string): Promise<string[]> => {
     fruit.toLowerCase().includes(query)
   );
 
-  return new Promise((resolve) => {
+  return new Promise((resolve, reject) => {
     if (!query) {
       resolve([]);
     } else {
-      setTimeout(() => {
+      const timeout = setTimeout(() => {
         resolve(filteredFruits);
       }, 1000);
+
+      signal.addEventListener("abort", () => {
+        console.log("Aborted");
+        clearTimeout(timeout);
+        reject(new DOMException("Query aborted"));
+      });
     }
   });
 };
@@ -109,6 +115,9 @@ export const AutoComplete = () => {
   );
 
   useEffect(() => {
+    const controller = new AbortController();
+    const signal = controller.signal;
+
     (async () => {
       const trimmedQuery = debouncedQuery.trim();
       if (!trimmedQuery) {
@@ -122,18 +131,24 @@ export const AutoComplete = () => {
       } else {
         console.log("Cache miss");
         try {
-          const data = await mockAPI(debouncedQuery);
+          const data = await mockAPI(debouncedQuery, signal);
           setCachedResult((prevCache) => ({
             ...prevCache,
             [trimmedQuery]: data,
           }));
           setResult(data);
         } catch (error) {
-          console.error("Error: ", error);
+          if (error instanceof DOMException && error.name === "AbortError") {
+            console.log("Query Aborted");
+          } else {
+            console.error("Error: ", error);
+          }
           setResult([]);
         }
       }
     })();
+
+    return () => controller.abort();
   }, [debouncedQuery, cachedResult]);
 
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
