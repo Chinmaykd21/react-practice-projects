@@ -82,27 +82,59 @@ const Results: FC<ResultsProps> = ({ fruits }) => {
   );
 };
 
-export const AutoComplete = () => {
-  const [query, setQuery] = useState<string>("");
-  const [result, setResult] = useState<string[]>([]);
+const useDebouncedQuery = (query: string, delay: number = 300) => {
+  const [debouncedQuery, setDebouncedQuery] = useState<string>("");
 
   useEffect(() => {
-    const timeout = setTimeout(async () => {
-      try {
-        const data = await mockAPI(query);
-        setResult(data);
-      } catch (error) {
-        console.error("Error: ", error);
-        setResult([]);
-      }
-    }, 300); // wait for 300ms, if the query does not change, then call this function
+    const timeout = setTimeout(() => {
+      setDebouncedQuery(query);
+    }, delay);
 
     return () => {
       if (timeout) {
         clearTimeout(timeout);
       }
     };
-  }, [query]);
+  }, [query, delay]);
+
+  return debouncedQuery;
+};
+
+export const AutoComplete = () => {
+  const [query, setQuery] = useState<string>("");
+  const [result, setResult] = useState<string[]>([]);
+  const debouncedQuery = useDebouncedQuery(query);
+  const [cachedResult, setCachedResult] = useState<Record<string, string[]>>(
+    {}
+  );
+
+  useEffect(() => {
+    (async () => {
+      const trimmedQuery = debouncedQuery.trim();
+      if (!trimmedQuery) {
+        setResult([]);
+        return;
+      }
+
+      if (cachedResult[trimmedQuery]) {
+        setResult(cachedResult[trimmedQuery]);
+        console.log("Cache Hit", cachedResult[trimmedQuery]);
+      } else {
+        console.log("Cache miss");
+        try {
+          const data = await mockAPI(debouncedQuery);
+          setCachedResult((prevCache) => ({
+            ...prevCache,
+            [trimmedQuery]: data,
+          }));
+          setResult(data);
+        } catch (error) {
+          console.error("Error: ", error);
+          setResult([]);
+        }
+      }
+    })();
+  }, [debouncedQuery, cachedResult]);
 
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
