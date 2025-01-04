@@ -1,5 +1,7 @@
 import "./App.css";
-import { AutoComplete } from "./autocomplete";
+import ToggleTheme from "./Theme";
+import { ThemeProvider } from "./Theme/context/themeProvider";
+// import { AutoComplete } from "./autocomplete";
 // import { SimpleForm } from "./simpleform";
 // import { Wordle } from "./wordle";
 // import { LogoSvg } from "./animatelogo/logosvg";
@@ -20,7 +22,10 @@ function App() {
       {/* <Accordion /> */}
       {/* <AutoScroll scrollInterval={3000} /> */}
       {/* <SimpleForm /> */}
-      <AutoComplete />
+      {/* <AutoComplete /> */}
+      <ThemeProvider>
+        <ToggleTheme />
+      </ThemeProvider>
     </>
   );
 }
