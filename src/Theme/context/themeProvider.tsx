@@ -1,17 +1,16 @@
 import { FC, ReactNode, useState } from "react";
 import { Theme, ThemeContext } from "../hooks/use-theme";
 
-type ThemeProviderProps = {
+export type ThemeProviderProps = {
   children: ReactNode;
 };
 
 export const ThemeProvider: FC<ThemeProviderProps> = ({ children }) => {
-  const [theme, setTheme] = useState<Theme>("light");
+  const [theme, setTheme] = useState<Theme>("dark");
 
   const toggleTheme = () => {
-    setTheme((prevTheme) => (prevTheme === "light" ? "dark" : "light"));
+    setTheme((prevTheme) => (prevTheme === "dark" ? "light" : "dark"));
   };
-
   return (
     <ThemeContext.Provider value={{ theme, toggleTheme }}>
       {children}
