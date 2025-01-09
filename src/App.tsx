@@ -1,5 +1,5 @@
 import "./App.css";
-// import { Wordle } from "./wordle";
+import { Wordle } from "./wordle";
 // import ToggleTheme from "./Theme";
 // import { ThemeProvider } from "./Theme/context/themeProvider";
 // import { AutoComplete } from "./autocomplete";
@@ -7,17 +7,17 @@ import "./App.css";
 // import { LogoSvg } from "./animatelogo/logosvg";
 // import { TempConverter } from "./temconverter";
 // import { StopWatch } from "./stopwatch";
-import { TicTacToe } from "./tictactoe";
+// import { TicTacToe } from "./tictactoe";
 // import { AutoScroll } from "./autoscroll";
 // import Accordion from "./Accordian";
 
 function App() {
   return (
     <>
-      <TicTacToe />
+      {/* <TicTacToe /> */}
       {/* <StopWatch /> */}
       {/* <TempConverter /> */}
-      {/* <Wordle /> */}
+      <Wordle />
       {/* <LogoSvg /> */}
       {/* <Accordion /> */}
       {/* <AutoScroll scrollInterval={3000} /> */}
