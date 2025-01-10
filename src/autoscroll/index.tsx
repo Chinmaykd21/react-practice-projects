@@ -4,8 +4,7 @@ import Image1 from "./Fancy_Demon.jpg";
 import Image2 from "./another_one.jpg";
 import Image3 from "./wallhaven-4dp86j.jpg";
 import Image4 from "./wallhaven-9dov8d.jpg";
-
-import { FC, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 
 type Image = {
   src: string;
@@ -19,65 +18,56 @@ const images: Image[] = [
   { src: Image4, alt: "Image 4" },
 ];
 
-type AutoScrollProps = {
-  scrollInterval: number;
-};
-
-export const AutoScroll: FC<AutoScrollProps> = ({ scrollInterval }) => {
+export const AutoScroll = () => {
   const [currentIndex, setCurrentIndex] = useState<number>(0);
 
-  const handleNext = () => {
-    setCurrentIndex((prevIndex) =>
-      prevIndex === images.length - 1 ? 0 : prevIndex + 1
-    );
-  };
-
-  const handlePrev = () => {
-    setCurrentIndex((prevIndex) =>
-      prevIndex === 0 ? images.length - 1 : prevIndex - 1
-    );
-  };
-
   useEffect(() => {
-    const interval = setInterval(() => {
-      setCurrentIndex((prevIndex) => (prevIndex + 1) % images.length);
-    }, scrollInterval);
-
+    const intervalId = setInterval(() => {
+      setCurrentIndex((next) => (next === images.length - 1 ? 0 : next + 1));
+    }, 30000);
     return () => {
-      if (interval) {
-        clearInterval(interval);
-      }
+      clearInterval(intervalId);
     };
-  }, [scrollInterval]);
+  }, []);
 
+  const handlePrevClick = () => {
+    setCurrentIndex((prev) => (prev === 0 ? images.length - 1 : prev - 1));
+  };
+  const handleNextClick = () => {
+    setCurrentIndex((next) => (next === images.length - 1 ? 0 : next + 1));
+  };
   return (
-    <div className="autoscroll-container">
+    <div className="container">
       <div
         className="scroll-content"
-        style={{ transform: `translateX(-${currentIndex * 100}%)` }}
+        style={{
+          transform: `translateX(-${currentIndex * 100}%)`,
+        }}
       >
-        {images.map((image, idx) => (
-          <img
-            className={`scroll-image ${currentIndex === idx ? "active" : ""}`}
-            src={image.src}
-            alt={image.alt}
-            key={`${image.alt}-${idx}`}
-          />
-        ))}
+        {images.map((image, idx) => {
+          return (
+            <div className="image-container" key={idx}>
+              <img
+                key={idx}
+                src={image.src}
+                alt={image.alt}
+                width={500}
+                height={500}
+                loading="lazy"
+                className={`scroll-image ${
+                  currentIndex === idx ? "active" : ""
+                }`}
+              />
+              <h4 className="text-on-image">{image.alt}</h4>
+            </div>
+          );
+        })}
       </div>
-      <button
-        className="navigation-buttons next"
-        onClick={handleNext}
-        aria-label="Next Image"
-      >
-        Next
-      </button>
-      <button
-        className="navigation-buttons prev"
-        onClick={handlePrev}
-        aria-label="Prev Image"
-      >
+      <button type="button" className="button prev" onClick={handlePrevClick}>
         Prev
+      </button>
+      <button type="button" className="button next" onClick={handleNextClick}>
+        Next
       </button>
     </div>
   );
